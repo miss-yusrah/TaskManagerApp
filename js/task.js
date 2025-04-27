@@ -3,22 +3,22 @@ export class Task{
         this.id=Date.now()
         this.name=name;
         this.description=description;
-        this.isCompleted=isCompleted;
-        
+        this.isCompleted=isCompleted;   
     }
+
     toggle(){
       this.isCompleted=!this.isCompleted;
     }
 
-    update(name,desc){
+    update(name, desc) {
         if(!name && !desc){
             console.log('enter name or description')
             return;
         }
-       if(name){
+       if (name) {
         this.name=name;
        }
-       if(desc){
+       if (desc) {
         this.description=desc;
        }
     }
@@ -31,14 +31,13 @@ export class TaskManager {
     }
 
 
-    addTask(name, description, isCompleted) {
+    addTask(name, description, isCompleted = false) {
         let newTask=new Task(name, description, isCompleted);
         this.tasks.push(newTask);
     }
 
     deleteTask(id) {
         this.tasks = this.tasks.filter(task => task.id !== id);
-
     }
 
     updateTask(id, name, desc) {
@@ -51,7 +50,7 @@ export class TaskManager {
     toggleTaskCompletion(id) {
         const task = this.tasks.find(task => task.id === id);
         if (task) {
-            task.isComplete = !task.isComplete;
+            task.toggle();
         }
     }
 

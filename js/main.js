@@ -1,33 +1,48 @@
-import { Task } from "./task.js";
-import { TaskManager } from "./task.js";
+import { Task, TaskManager } from "./task.js";
 import { updateScreenwithTasks } from "./dom.js";
 
 let taskManager = new TaskManager();
 
-taskManager.addTask('Wash clothes', 'Wash them well', false);
-taskManager.addTask('Do your bed', 'Finish your bed stuff', true);
+// Get the Add Task button and input fields
+const addButton = document.getElementById('addBtn');
+const taskNameInput = document.getElementById('taskName');
+const taskDescInput = document.getElementById('taskDesc');
 
-function handleDeleteTask(id) {
-    taskManager.deleteTask(id);      
-    displayTasks();                 
+// Function to add task
+function addNewTask() {
+    const name = taskNameInput.value;
+    const description = taskDescInput.value;
+
+    if (name && description) {
+        taskManager.addTask(name, description);
+        taskNameInput.value = '';  // Clear input fields
+        taskDescInput.value = '';
+        displayTasks();
+    } else {
+        alert("Please enter both task name and description.");
+    }
 }
 
-function handleUpdateTask(id, newName, newDescription) {
-    taskManager.updateTask(id, newName, newDescription); 
-    displayTasks();                 
-} 
+// Add task on button click
+addButton.addEventListener('click', addNewTask);
 
+// Function to display tasks on screen
 function displayTasks() {
-    const tasks = taskManager.getAllTask();  
-    updateScreenwithTasks(tasks, handleDeleteTask, handleUpdateTask); 
+    const tasks = taskManager.getAllTask();
+    updateScreenwithTasks(tasks, handleDeleteTask, handleUpdateTask);
 }
 
+// Display tasks 
 displayTasks();
 
-const firstTaskId = taskManager.getAllTask()[0].id; 
-taskManager.updateTask(firstTaskId, 'Do Laundry', 'Use washing machine for laundry');
+// Handle task deletion
+function handleDeleteTask(id) {
+    taskManager.deleteTask(id);
+    displayTasks();
+}
 
-taskManager.toggleTaskCompletion(firstTaskId); 
-displayTasks(); 
-
-console.log(taskManager.getAllTask());
+// Handle task update
+function handleUpdateTask(id, newName, newDescription) {
+    taskManager.updateTask(id, newName, newDescription);
+    displayTasks();
+}

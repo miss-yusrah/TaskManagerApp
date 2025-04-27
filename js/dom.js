@@ -2,7 +2,7 @@ let body=document.getElementById('body')
 
 export function updateScreenwithTasks(tasks, onDelete, onUpdate) {
     body.innerHTML = '';
-    tasks.map(task=>{
+    tasks.forEach(task=> {
         let p=document.createElement('h1');
         let desc=document.createElement('p')
         let div=document.createElement('div');
